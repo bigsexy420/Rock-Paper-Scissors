@@ -5,7 +5,10 @@
     </head>
     <body>
         <script>
-            
+            const PLAYER = "PLAYER";
+            const COMPUTER = "COMPUTER";
+            const TIE = "TIE";
+
             //A Constant for ROCK equal to 0
             const ROCK = 0;
             
@@ -15,34 +18,42 @@
             //A Constant for SCISSORS equal to 2
             const SCISSORS = 2;
             
-            //A Variable for the computers play
-            const compPlay = computerPlay();
-            
-            //A Variable for the users play
-            const userPlay = ROCK;  //Ask user for thier play either ROCK, PAPER, SCISSORS save to users play variable
-            
             //(F)randomly pick for the Computer Player
             function computerPlay() {
                 return Math.floor(Math.random()*2.99);
             }
+
+            //(F) getPlayString: convert number to reference string.
+            function getPlayString(play) {
+                switch (play) { 
+                    case 0: //If play === 0 return "ROCK"
+                        return "ROCK";
+                        break;
+                    case 1: //else If play === 1 return "PAPER"
+                        return "PAPER";
+                        break;
+                    case 2: //else return "SCISSORS"
+                        return "SCISSORS";
+                        break;
+                }
+            }
             
             //(F)Compare user play and computer play return winner
-            function playRound(compPlay, userPlay) {
-            
-                //(F) getPlayString: convert number to reference string.
-                function getPlayString(play) {
-                    switch (play) { 
-                        case 0: //If play === 0 return "ROCK"
-                            return "ROCK";
-                            break;
-                        case 1: //else If play === 1 return "PAPER"
-                            return "PAPER";
-                            break;
-                        case 2: //else return "SCISSORS"
-                            return "SCISSORS";
-                            break;
+            function playRound() {
+                //A Variable for the computers play
+                const compPlay = computerPlay();
+                
+                //A Variable for the users play
+                const userPlay = (function () {
+                    let userInput;
+                    userInput = prompt("Please choose ROCK, PAPER, or SCISSORS", "ROCK");
+                    switch(userInput.toUpperCase()) {
+                        case "ROCK":return ROCK;
+                        case "PAPER":return PAPER;
+                        case "SCISSORS":return SCISSORS;
+                        case "SCISSOR":return SCISSORS;
                     }
-                }
+                })();  //Ask user for thier play either ROCK, PAPER, SCISSORS save to users play variable
                 
                 //(F) Prints the players choices in the console.
                 function printPlayersChoices (compPlay, userPlay) {
@@ -53,27 +64,59 @@
                 switch (Math.abs(compPlay - userPlay)) {  
                     case 0: //If the absolute value of compPlay - userPlay ===0
                         printPlayersChoices(compPlay, userPlay);
-                        return "Tie Game - Everyone looses" //return tie game
+                        return TIE //return tie game
                         break;
                     case 1: //else If the absolute value of compPlay - userPlay === 1
                         printPlayersChoices(compPlay, userPlay);
                         if (compPlay > userPlay) { //If compPlay is greater than userPlay
-                            return "Computer Wins: " + getPlayString(compPlay) + " beats " + getPlayString(userPlay); //return getPlayString(compPlay) beats getPlayString(userPlay)
+                            return COMPUTER; //return getPlayString(compPlay) beats getPlayString(userPlay)
                         } else {
-                            return "Player Wins: " + getPlayString(userPlay) + " beats " + getPlayString(compPlay); //else return getPlayString(userPlay) beats getPlayString(compPlay)
+                            return PLAYER; //else return getPlayString(userPlay) beats getPlayString(compPlay)
                         }
                         break;
                     case 2: //return Rock beats Scissors
                         printPlayersChoices(compPlay, userPlay);
                         if (compPlay === 0) {
-                            return "Computer Wins: " + getPlayString(compPlay) + " beats " + getPlayString(userPlay);
+                            return COMPUTER;
                         } else {
-                            return "Player Wins: " + getPlayString(userPlay) + " beats " + getPlayString(compPlay);
+                            return PLAYER;
                         }
                 }
             }
+            function game() {
+                //Variable for user Wins
+                let userWins = 0;
+                //Variable for comp Wins
+                let compWins = 0;
+                //For 5 rounds
+                for (let round = 1; round <= 5; round++) {
+                    //Play a round
+                    let gameWinner = playRound();
+                    
+                    switch (gameWinner) {
+                        case COMPUTER: //If computer wins
+                            compWins++; //Increment compWins
+                            console.log("Round Winner: " + gameWinner); //print Winner:
+                            break;
+                        case PLAYER: //else if user wins
+                            userWins++; //Increment userWins
+                            console.log("Round Winner: " + gameWinner);//print Winner:
+                            break;
+                        case TIE: //else print tie game
+                            console.log("Tie Game - Everyone loses");
+                    }
+                }
+                if (userWins > compWins) {
+                    console.log(PLAYER + " wins the Game with " + userWins + " rounds");
+                } else if ( userWins < compWins) {
+                    console.log(COMPUTER + " wins the game with " + compWins + " rounds");
+                }else {
+                    console.log ("WTF")
+                }
+            }
+            game();
             //Display Results
-            console.log(playRound(compPlay, userPlay));
+            //console.log(playRound());
         </script>
     </body>
 </html>
