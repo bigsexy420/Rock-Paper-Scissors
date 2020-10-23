@@ -26,15 +26,9 @@
             //(F) getPlayString: convert number to reference string.
             function getPlayString(play) {
                 switch (play) { 
-                    case 0: //If play === 0 return "ROCK"
-                        return "ROCK";
-                        break;
-                    case 1: //else If play === 1 return "PAPER"
-                        return "PAPER";
-                        break;
-                    case 2: //else return "SCISSORS"
-                        return "SCISSORS";
-                        break;
+                    case 0: return "ROCK";//If play === 0 return "ROCK"
+                    case 1: return "PAPER";//else If play === 1 return "PAPER"
+                    case 2: return "SCISSORS";//else return "SCISSORS"
                 }
             }
             
@@ -81,6 +75,7 @@
                         } else {
                             return PLAYER;
                         }
+                        break;
                 }
             }
             function game() {
